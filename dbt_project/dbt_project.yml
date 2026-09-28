@@ -1,0 +1,32 @@
+name: retail_dw
+version: 1.0.0
+config-version: 2
+profile: retail_dw
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+
+models:
+  retail_dw:
+    staging:
+      +schema: staging
+      +materialized: view
+    intermediate:
+      +schema: intermediate
+      +materialized: ephemeral
+    marts:
+      +schema: marts
+      dimensions:
+        +materialized: table
+      facts:
+        +materialized: incremental
+        +on_schema_change: append_new_columns
+
+seeds:
+  retail_dw:
+    +schema: seeds
+
+vars:
+  start_date: "2020-01-01"
